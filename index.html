@@ -2,160 +2,515 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Curso – Platão e o Platonismo</title>
+  <title>Curso: Platão e o Platonismo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    :root {
+      --bg: #0f172a;
+      --bg-soft: #111827;
+      --card: #020617;
+      --border: #1f2937;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #3b82f6;
+      --accent-soft: rgba(59, 130, 246, 0.15);
+      --radius-lg: 1rem;
+      --radius-xl: 1.5rem;
+      --shadow-soft: 0 20px 40px rgba(0,0,0,0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       margin: 0;
-      background: #0f172a;
-      color: #e5e7eb;
+      background: radial-gradient(circle at top, #1f2937, #020617);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     header {
-      padding: 1.5rem 1.5rem 1rem;
+      padding: 1.8rem 1.2rem 1.3rem;
       text-align: center;
       background: radial-gradient(circle at top, #1d4ed8, #020617);
+      border-bottom: 1px solid rgba(148,163,184,0.4);
     }
 
     header h1 {
       margin: 0;
-      font-size: 1.8rem;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
     }
 
     header p {
       margin-top: 0.5rem;
       color: #cbd5f5;
+      font-size: 0.95rem;
+      max-width: 620px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     main {
-      max-width: 1000px;
+      max-width: 1200px;
+      width: 100%;
       margin: 1.5rem auto 3rem;
       padding: 0 1rem;
+      flex: 1;
+    }
+
+    .layout {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .player-column {
+      flex: 2 1 360px;
+      min-width: 0;
+    }
+
+    .lessons-column {
+      flex: 1 1 260px;
+      min-width: 0;
     }
 
     .player-card {
-      background: rgba(15,23,42,0.9);
-      border-radius: 1rem;
+      background: rgba(15,23,42,0.95);
+      border-radius: var(--radius-xl);
       padding: 1rem;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-      border: 1px solid rgba(148,163,184,0.3);
-    }
-
-    iframe {
-      border-radius: 0.75rem;
-      overflow: hidden;
-    }
-
-    .info {
-      margin-top: 1.25rem;
-      display: grid;
-      gap: 0.75rem;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148,163,184,0.35);
     }
 
     .tag {
-      display: inline-block;
-      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.12em;
       color: #93c5fd;
-      background: rgba(37,99,235,0.25);
-      padding: 0.25rem 0.5rem;
+      background: var(--accent-soft);
+      padding: 0.25rem 0.7rem;
       border-radius: 999px;
     }
 
-    .modules {
-      margin-top: 2rem;
+    .tag-dot {
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.18);
+    }
+
+    .player-wrapper {
+      margin-top: 0.8rem;
+      position: relative;
+      padding-top: 56.25%; /* 16:9 */
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+
+    iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .info {
+      margin-top: 1rem;
       display: grid;
-      gap: 0.75rem;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+      color: var(--muted);
     }
 
-    .module {
-      padding: 0.75rem 1rem;
-      border-radius: 0.75rem;
-      background: rgba(15,23,42,0.8);
-      border: 1px solid rgba(75,85,99,0.6);
-      cursor: default;
-    }
-
-    .module h3 {
-      margin: 0;
-      font-size: 1rem;
-    }
-
-    .module p {
-      margin: 0.25rem 0 0;
-      font-size: 0.875rem;
-      color: #9ca3af;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1.5rem;
-      font-size: 0.8rem;
-      color: #9ca3af;
-    }
-
-    a {
+    .info a {
       color: #93c5fd;
       text-decoration: none;
     }
 
-    a:hover {
+    .info a:hover {
       text-decoration: underline;
+    }
+
+    /* Lista de aulas */
+
+    .lessons-card {
+      background: rgba(15,23,42,0.92);
+      border-radius: var(--radius-xl);
+      padding: 1rem;
+      border: 1px solid rgba(75,85,99,0.7);
+      max-height: 520px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .lessons-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.6rem;
+      gap: 0.5rem;
+    }
+
+    .lessons-header h2 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .lessons-count {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .lessons-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #4b5563 transparent;
+    }
+
+    .lessons-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .lessons-list::-webkit-scrollbar-thumb {
+      background: #4b5563;
+      border-radius: 999px;
+    }
+
+    .lesson-item {
+      margin-bottom: 0.4rem;
+    }
+
+    .lesson-button {
+      width: 100%;
+      text-align: left;
+      border-radius: 0.8rem;
+      border: 1px solid transparent;
+      padding: 0.55rem 0.7rem;
+      background: rgba(15,23,42,0.9);
+      color: var(--text);
+      font: inherit;
+      cursor: pointer;
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+      transition: background 0.16s ease, border-color 0.16s ease, transform 0.06s ease;
+    }
+
+    .lesson-button:hover {
+      background: rgba(31,41,55,0.95);
+      border-color: rgba(59,130,246,0.6);
+      transform: translateY(-1px);
+    }
+
+    .lesson-button.active {
+      background: rgba(37,99,235,0.18);
+      border-color: var(--accent);
+    }
+
+    .lesson-index {
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      background: rgba(15,23,42,1);
+      border: 1px solid rgba(75,85,99,0.9);
+      flex-shrink: 0;
+    }
+
+    .lesson-texts {
+      min-width: 0;
+    }
+
+    .lesson-title {
+      font-size: 0.88rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .lesson-meta {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.12rem;
+    }
+
+    .lessons-note {
+      margin-top: 0.55rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    /* Módulos / descrição extra */
+
+    .modules {
+      margin-top: 1.8rem;
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    @media (min-width: 768px) {
+      .modules {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .module {
+      padding: 0.8rem 0.9rem;
+      border-radius: 0.9rem;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(55,65,81,0.9);
+      font-size: 0.86rem;
+    }
+
+    .module h3 {
+      margin: 0 0 0.25rem;
+      font-size: 0.95rem;
+    }
+
+    .module p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.2rem 1rem 1.6rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(31,41,55,0.9);
+      background: linear-gradient(to top, rgba(15,23,42,1), transparent);
+    }
+
+    /* Responsividade */
+
+    @media (max-width: 900px) {
+      .layout {
+        flex-direction: column;
+      }
+
+      .lessons-card {
+        max-height: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      main {
+        margin-top: 1rem;
+      }
+
+      .player-card {
+        padding: 0.8rem;
+      }
+
+      .lessons-card {
+        padding: 0.8rem;
+      }
+
+      .lesson-title {
+        white-space: normal;
+      }
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Curso: Platão e o Platonismo</h1>
-    <p>Assista às aulas completas diretamente nesta página.</p>
-    <p>Acesse o site <link>www.valderi.com.br</link></p>
+    <p>
+      Série de aulas em vídeo sobre Platão, suas obras e o desenvolvimento do platonismo.
+      Assista na ordem e use a lista ao lado para navegar entre as aulas.
+    </p>
   </header>
 
   <main>
-    <section class="player-card">
-      <span class="tag">Playlist completa</span>
-      <div style="margin-top: 0.75rem;">
-        <iframe 
-          width="100%" 
-          height="450"
-          src="https://www.youtube.com/embed/videoseries?list=PLrOEqj4ng7UIdC3wPv1lYIqx7C9_elyxA"
-          title="Curso no YouTube"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
+    <section class="layout">
+
+      <!-- COLUNA DO PLAYER -->
+      <div class="player-column">
+        <article class="player-card">
+          <span class="tag">
+            <span class="tag-dot"></span>
+            Playlist completa
+          </span>
+
+          <div class="player-wrapper">
+            <!--
+              PLAYER INICIAL
+              - Por padrão, carregamos a playlist completa.
+              - Quando o usuário clicar em uma aula na lista,
+                o JavaScript troca o vídeo aqui.
+            -->
+            <iframe
+              id="videoPlayer"
+              src="https://www.youtube.com/embed/videoseries?list=PLrOEqj4ng7UIdC3wPv1lYIqx7C9_elyxA"
+              title="Curso Platão e o Platonismo"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+
+          <div class="info">
+            <p>
+              Clique em uma aula na lista para assistir diretamente neste player.
+            </p>
+            <p>
+              Se preferir, acesse o site do professor Valderi:
+              <a href="https://www.valderi.com.br"
+                 target="_blank" rel="noopener noreferrer">
+                Acessar site.
+              </a>.
+            </p>
+          </div>
+        </article>
       </div>
 
-      <div class="info">
-        <p>
-          Use o menu da playlist (no canto do player) para navegar entre as aulas.
-        </p>
-        <p>
-          Se preferir, você também pode abrir diretamente no site oficial do professor Valderi da Silva:
-          <a href="https://www.valderi.com.br/cursos" target="_blank" rel="noopener noreferrer">
-            ver playlist no YouTube
-          </a>.
-        </p>
-      </div>
+      <!-- COLUNA DAS AULAS -->
+      <aside class="lessons-column">
+        <section class="lessons-card">
+          <div class="lessons-header">
+            <h2>Aulas do curso</h2>
+            <span class="lessons-count">Selecione para assistir</span>
+          </div>
+
+          <ul class="lessons-list">
+            <!--
+              ATENÇÃO: aqui é onde o senhor preenche os IDs dos vídeos.
+              data-video-id="XXXXXXXXXXX"  → substituir pelo ID real do vídeo.
+
+              Como descobrir o ID:
+              - Abra o vídeo no YouTube.
+              - O endereço fica assim: https://www.youtube.com/watch?v=ABCDEF12345
+              - O que vem depois de "v=" (ABCDEF12345) é o ID do vídeo.
+            -->
+
+            <li class="lesson-item">
+              <button
+                class="lesson-button active"
+                data-video-id="i4QBI5XxSgk">
+                <span class="lesson-index">1</span>
+                <span class="lesson-texts">
+                  <span class="lesson-title">Aula 1 – Platão e sua filosofia</span>
+                  <span class="lesson-meta">2025/1  - 27/10/2025</span>
+                </span>
+              </button>
+            </li>
+
+            <li class="lesson-item">
+              <button
+                class="lesson-button"
+                data-video-id="etLtCPAGIzo">
+                <span class="lesson-index">2</span>
+                <span class="lesson-texts">
+                  <span class="lesson-title">Aula 2 – O Platonismo como desdobramento de Platão: Médio-platonismo</span>
+                  <span class="lesson-meta">2025/1 - 28/10/2025</span>
+                </span>
+              </button>
+            </li>
+
+            <li class="lesson-item">
+              <button
+                class="lesson-button"
+                data-video-id="hsZKTWHg-SY">
+                <span class="lesson-index">3</span>
+                <span class="lesson-texts">
+                  <span class="lesson-title">Aula 3 – O Platonismo como desdobramento de Platão: Neoplatonismo</span>
+                  <span class="lesson-meta">2025/1 - 29/10/2025
+              </button>
+            </li>
+
+            <li class="lesson-item">
+              <button
+                class="lesson-button"
+                data-video-id="QokNrVLVmKg">
+                <span class="lesson-index">4</span>
+                <span class="lesson-texts">
+                  <span class="lesson-title">Aula 4 – Críticas ao Platonismo</span>
+                  <span class="lesson-meta">2025/1  - 08/11/2025</span>
+                </span>
+              </button>
+            </li>
+
+            <li class="lesson-item">
+              <button
+                class="lesson-button"
+                data-video-id="ggkE8k0eJMM">
+                <span class="lesson-index">5</span>
+                <span class="lesson-texts">
+                  <span class="lesson-title">Aula 5 – Platão versus Platonismo</span>
+                  <span class="lesson-meta">2025/1 - 14/11/2025</span>
+                </span>
+              </button>
+            </li>
+
+            <!-- Acrescente mais aulas copiando o bloco <li> acima e mudando o índice e o ID -->
+          </ul>
+
+          <p class="lessons-note">
+            Dica: para cada nova aula, copie um item da lista, altere o número,
+            o título e o <strong>data-video-id</strong> com o ID do vídeo no YouTube.
+          </p>
+        </section>
+      </aside>
     </section>
 
+    <!-- Seção opcional de módulos / resumo -->
     <section class="modules">
-      <div class="module">
-        <h3>Anexo 1</h3>
-        <p>Acesse aqui.</p>
-      </div>
-      <!-- Você pode editar, remover ou adicionar mais módulos aqui -->
+      <article class="module">
+        <h3>Módulo 1 – Introdução</h3>
+        <p>Panorama da filosofia grega, vida de Platão e principais obras.</p>
+      </article>
+      <article class="module">
+        <h3>Módulo 2 – Teoria do conhecimento</h3>
+        <p>Mundo sensível e inteligível, opinião, ciência e reminiscência.</p>
+      </article>
+      <article class="module">
+        <h3>Módulo 3 – Ética, política e legado</h3>
+        <p>A República, a cidade justa, a alma e o platonismo posterior.</p>
+      </article>
     </section>
   </main>
 
   <footer>
-    Página criada para apoio ao curso. © <span id="ano"></span> Professor Valderi da Silva
+    Página de apoio ao curso “Platão e o Platonismo”. © <span id="ano"></span> Professor Valderi da Silva
   </footer>
 
   <script>
+    // Atualiza o ano no rodapé
     document.getElementById('ano').textContent = new Date().getFullYear();
+
+    // Lógica para trocar o vídeo quando clicar na aula
+    const playlistId = "PLrOEqj4ng7UIdC3wPv1lYIqx7C9_elyxA";
+    const player = document.getElementById("videoPlayer");
+    const lessonButtons = document.querySelectorAll(".lesson-button");
+
+    lessonButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        const videoId = button.dataset.videoId;
+
+        if (videoId && !videoId.startsWith("COLOQUE_ID_DA_AULA")) {
+          // Troca o vídeo no player mantendo a playlist associada
+          player.src = `https://www.youtube.com/embed/${videoId}?list=${playlistId}`;
+
+          // Marca a aula ativa visualmente
+          lessonButtons.forEach(btn => btn.classList.remove("active"));
+          button.classList.add("active");
+        }
+      });
+    });
   </script>
 </body>
 </html>
